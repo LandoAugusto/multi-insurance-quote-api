@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Libraries/">
+    <Project Path="src/MultiQuote.Core/MultiQuoteApi.Core.csproj" />
+    <Project Path="src/MultiQuote.Infra.IoC/MultiQuoteApi.Infra.IoC.csproj" />
+    <Project Path="src/MultiQuoteApi.Application/MultiQuoteApi.Application.csproj" />
+    <Project Path="src/MultiQuoteApi.Infra.Data/MultiQuoteApi.Infra.Data.csproj" />
+    <Project Path="src/MultiQuoteApi.Infra.Identity/MultiQuoteApi.Infra.Identity.csproj" Id="e6e36d63-6256-4f4b-9eb3-3be86e3a48d8" />
+    <Project Path="src/MultiQuoteApi.Service.Client/MultiQuoteApi.Service.Client.csproj" Id="03fd1009-04d4-45eb-8b82-a930d269bed2" />
+  </Folder>
+  <Folder Name="/Presentantion/">
+    <Project Path="src/MultiQuote.Api/MultiQuote.Api.csproj" />
+  </Folder>
+</Solution>

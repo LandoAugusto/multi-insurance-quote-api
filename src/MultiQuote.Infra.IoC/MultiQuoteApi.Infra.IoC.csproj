@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MultiQuoteApi.Application\MultiQuoteApi.Application.csproj" />
+    <ProjectReference Include="..\MultiQuoteApi.Infra.Data\MultiQuoteApi.Infra.Data.csproj" />
+    <ProjectReference Include="..\MultiQuoteApi.Infra.Identity\MultiQuoteApi.Infra.Identity.csproj" />
+    <ProjectReference Include="..\MultiQuoteApi.Service.Client\MultiQuoteApi.Service.Client.csproj" />
+  </ItemGroup>
+
+</Project>

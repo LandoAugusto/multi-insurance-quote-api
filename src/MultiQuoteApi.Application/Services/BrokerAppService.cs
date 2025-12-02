@@ -37,6 +37,7 @@ namespace MultiQuoteApi.Application.Services
                 BrokerId = brokerId,
                 PersonId = personId,
                 ProfileId = (int)ProfileEnum.Gestor,
+                RoleId = (int)ProfileEnum.Gestor,
                 Credencial = request.Credencial
             });
         }
@@ -53,6 +54,7 @@ namespace MultiQuoteApi.Application.Services
                 BrokerId = brokerId,
                 PersonId = personId,
                 ProfileId = request.ProfileId,
+                RoleId = request.ProfileId,
                 Credencial = request.Credencial
             });
         }

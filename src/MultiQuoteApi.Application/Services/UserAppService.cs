@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MultiQuoteApi.Application.Interfaces;
 using MultiQuoteApi.Core.Entities;
 using MultiQuoteApi.Core.Entities.Enumerators;
@@ -42,7 +41,7 @@ namespace MultiQuoteApi.Application.Services
         }
 
         public async Task CreateUserAsync(UserPersonModel user)
-        {   
+        {
             var applicationUser = new ApplicationUser
             {
                 UserName = user.Credencial.Login,
@@ -53,7 +52,14 @@ namespace MultiQuoteApi.Application.Services
             var createdUser = await userManager.CreateAsync(applicationUser, user.Credencial.Password);
             if (createdUser.Succeeded)
             {
-                await _signInManager.SignInAsync(applicationUser, false);            
+                var roleNames = await _roleManager.FindByIdAsync(user.RoleId.ToString())
+                    ?? throw new BusinessException($"Role '{user.RoleId}' não foi lozalizada.");
+
+                await _signInManager.SignInAsync(applicationUser, false);
+
+                _ = await userManager.AddToRoleAsync(applicationUser, roleNames.Name);
+
+                await _signInManager.SignInAsync(applicationUser, false);
                 await InsertAsync(applicationUser.Id, new UserModel
                 {
                     UserId = applicationUser.Id,

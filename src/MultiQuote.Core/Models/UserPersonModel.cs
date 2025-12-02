@@ -4,7 +4,8 @@
     {
         public int BrokerId { get; set; }
         public int PersonId { get; set; }
-        public int ProfileId { get; set; }        
+        public int ProfileId { get; set; }
+        public int RoleId { get; set; }
         public required CredencialModel Credencial { get; set; }
     }
 }

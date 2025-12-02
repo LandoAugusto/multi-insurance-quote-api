@@ -16,7 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MultiQuoteApi.Api.Controllers.V1
+namespace MultiQuote.Api.Controllers.V1
 {
     /// <summary>
     /// 

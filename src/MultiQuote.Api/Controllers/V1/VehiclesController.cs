@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MultiQuote.Api.Controllers.V1.Base;
 using MultiQuoteApi.Application.Interfaces;
 using MultiQuoteApi.Core.Entities.Enumerators;
@@ -93,7 +92,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// <returns></returns>         
         [HttpGet]
         [Route("fuel-types")]
-        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<VehicleYearModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<VehicleFuelTypeModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetFuelTypeAsync()
         {

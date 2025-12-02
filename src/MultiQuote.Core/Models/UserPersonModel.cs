@@ -6,6 +6,7 @@
         public int PersonId { get; set; }
         public int ProfileId { get; set; }
         public int RoleId { get; set; }
+        public bool IsDefault { get; set; }
         public required CredencialModel Credencial { get; set; }
     }
 }

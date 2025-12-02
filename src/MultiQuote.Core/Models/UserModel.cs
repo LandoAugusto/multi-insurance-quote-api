@@ -6,6 +6,8 @@
         public int UserId { get; set; }
         public int PersonId { get; set; }
         public int BrokerId { get; set; }
-        public int ProfileId { get; set; }        
+        public int ProfileId { get; set; }
+        public bool IsDefault { get; set; }
+
     }
 }

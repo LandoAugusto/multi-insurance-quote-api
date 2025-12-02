@@ -38,6 +38,7 @@ namespace MultiQuoteApi.Application.Services
                 PersonId = personId,
                 ProfileId = (int)ProfileEnum.Gestor,
                 RoleId = (int)ProfileEnum.Gestor,
+                IsDefault = true,
                 Credencial = request.Credencial
             });
         }
@@ -48,13 +49,14 @@ namespace MultiQuoteApi.Application.Services
             await _userAppService.ValidateUserAsync(request.Credencial.Login);
 
             var personId = await CreatePersonAsync(userId, request);
-
+                
             await _userAppService.CreateUserAsync(new UserPersonModel
             {
                 BrokerId = brokerId,
                 PersonId = personId,
                 ProfileId = request.ProfileId,
                 RoleId = request.ProfileId,
+                IsDefault = false,
                 Credencial = request.Credencial
             });
         }

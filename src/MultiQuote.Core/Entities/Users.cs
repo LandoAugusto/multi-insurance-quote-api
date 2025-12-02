@@ -9,6 +9,7 @@ namespace MultiQuoteApi.Core.Entities
         public int BrokerId { get; set; }
         public int PersonId { get; set; }
         public int ProfileId { get; set; }
+        public bool IsDefault { get; set; }        
         public int Status { get; set; }
         public int InclusionUserId { get; set; }
         public DateTime InclusionDate { get; set; }

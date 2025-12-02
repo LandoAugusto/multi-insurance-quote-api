@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using MultiQuoteApi.Application.Interfaces;
 using MultiQuoteApi.Core.Entities;
 using MultiQuoteApi.Core.Entities.Enumerators;
@@ -65,7 +66,8 @@ namespace MultiQuoteApi.Application.Services
                     UserId = applicationUser.Id,
                     BrokerId = user.BrokerId,
                     PersonId = user.PersonId,
-                    ProfileId = user.ProfileId
+                    ProfileId = user.ProfileId,
+                    IsDefault = user.IsDefault
                 });
             }
         }
@@ -74,6 +76,7 @@ namespace MultiQuoteApi.Application.Services
         {
             var entity = _mapper.Map<Users>(model);
             entity.InclusionDate = DateTime.UtcNow;
+            entity.IsDefault = model.IsDefault;
             entity.InclusionUserId = inclusionUserId;
             entity.Status = (int)RecordStatusEnum.Active;
             var response = await _userRepository.AddAsync(entity);

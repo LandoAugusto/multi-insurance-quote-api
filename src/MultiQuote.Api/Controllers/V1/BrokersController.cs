@@ -17,16 +17,27 @@ namespace MultiQuote.Api.Controllers.V1
     {
         private readonly IBrokerAppService _brokerAppService = brokerAppService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateAsync(BrokerModel request)
         {
-            await _brokerAppService.CreateAsync(this.UserId, request);            
+            await _brokerAppService.CreateAsync(request);
             return Created();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("users")]
         [ProducesResponseType(typeof(BaseDataResponseModel<int>), StatusCodes.Status200OK)]
@@ -34,7 +45,8 @@ namespace MultiQuote.Api.Controllers.V1
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateUserAsync(BrokerUserModel request)
         {
-            return Ok();
+            await _brokerAppService.CreateUserAsync(this.UserId, this.BrokerId, request);
+            return Created();
         }
 
         [AllowAnonymous]

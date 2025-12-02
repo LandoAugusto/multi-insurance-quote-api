@@ -147,10 +147,11 @@ namespace MultiQuoteApi.Application.Services
 
         public async Task<IEnumerable<GenderOptionModel>?> GetGenderAsync(RecordStatusEnum recordStatus)
         {
-            var entity = await _genderRepository.ListAsync(recordStatus);
-            if (!entity.IsAny<Gender>()) return null;
+            var entities = await _genderRepository.ListAsync(recordStatus);
+            if (entities is null || !entities.Any())
+                return null;
 
-            return _mapper.Map<IEnumerable<GenderOptionModel>>(entity);
+            return _mapper.Map<IEnumerable<GenderOptionModel>>(entities);
         }
         public async Task<IEnumerable<ProfessionModel>?> GetProfessionAsync(string? name, RecordStatusEnum recordStatus)
         {

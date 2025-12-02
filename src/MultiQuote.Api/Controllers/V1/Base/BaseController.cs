@@ -15,17 +15,33 @@ namespace MultiQuote.Api.Controllers.V1.Base
     [ApiVersion("1.0")]
     public abstract class BaseController : ControllerBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected int UserId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected int BrokerId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         protected int ProfileId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool UserAuthentication { get; set; }
 
         protected BaseController(IUser appUser)
         {
             if (appUser.IsAuthenticated())
             {
-                UserId = appUser.GetUserId();
-                ProfileId = appUser.GetProfileId(); 
-                UserAuthentication = true;
+                this.UserId = appUser.GetUserId();
+                this.ProfileId = appUser.GetProfileId();
+                this.BrokerId = appUser.GetBrokerId();
+                this.UserAuthentication = true;
             }
         }
 

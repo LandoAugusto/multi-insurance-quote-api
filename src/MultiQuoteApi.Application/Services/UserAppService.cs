@@ -41,28 +41,25 @@ namespace MultiQuoteApi.Application.Services
             }
         }
 
-        public async Task CreateUserAsync(int brokerId, int personId, int profileId, CredencialModel credencial)
-        {
-            var roleNames = await _roleManager.FindByIdAsync("1");
-            var user = new ApplicationUser
+        public async Task CreateUserAsync(UserPersonModel user)
+        {   
+            var applicationUser = new ApplicationUser
             {
-                UserName = credencial.Login,
-                Email = credencial.Email,
+                UserName = user.Credencial.Login,
+                Email = user.Credencial.Email,
                 EmailConfirmed = true,
             };
 
-            var createdUser = await userManager.CreateAsync(user, credencial.Password);
+            var createdUser = await userManager.CreateAsync(applicationUser, user.Credencial.Password);
             if (createdUser.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
-                var roleResult = await userManager.AddToRoleAsync(user, roleNames.Name);
-
-                await InsertAsync(user.Id, new UserModel
+                await _signInManager.SignInAsync(applicationUser, false);            
+                await InsertAsync(applicationUser.Id, new UserModel
                 {
-                    UserId = user.Id,
-                    BrokerId = brokerId,
-                    PersonId = personId,
-                    ProfileId = profileId
+                    UserId = applicationUser.Id,
+                    BrokerId = user.BrokerId,
+                    PersonId = user.PersonId,
+                    ProfileId = user.ProfileId
                 });
             }
         }
@@ -72,7 +69,7 @@ namespace MultiQuoteApi.Application.Services
             var entity = _mapper.Map<Users>(model);
             entity.InclusionDate = DateTime.UtcNow;
             entity.InclusionUserId = inclusionUserId;
-            entity.Status = 1;
+            entity.Status = (int)RecordStatusEnum.Active;
             var response = await _userRepository.AddAsync(entity);
 
             return response.Id;

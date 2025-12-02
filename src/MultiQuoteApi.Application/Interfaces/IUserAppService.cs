@@ -7,7 +7,7 @@ namespace MultiQuoteApi.Application.Interfaces
     {
         Task<UserModel?> GetAsync(int userId, RecordStatusEnum recordStatus);
         Task<int> InsertAsync(int inclusionUserId, UserModel model);
-        Task CreateUserAsync(int brokerId, int personId, int profileId, CredencialModel credencial);
+        Task CreateUserAsync(UserPersonModel user);
         Task ValidateUserAsync(string login);
     }
 }

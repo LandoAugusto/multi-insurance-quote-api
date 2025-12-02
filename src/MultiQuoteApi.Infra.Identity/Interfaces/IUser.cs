@@ -7,9 +7,9 @@ namespace MultiQuoteApi.Infra.Identity.Interfaces
         string Name { get; }
         int GetUserId();
         int GetProfileId();
+        int GetBrokerId();
         string? GetUserEmail();
-        string? GetUserName();
-        int? GetExternalId();
+        string? GetUserName();        
         bool IsAuthenticated();
         bool IsInRole(string role);
         IEnumerable<Claim> GetClaimsIdentity();

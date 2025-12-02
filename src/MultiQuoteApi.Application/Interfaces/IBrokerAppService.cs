@@ -6,6 +6,7 @@ namespace MultiQuoteApi.Application.Interfaces
     public interface IBrokerAppService
     {
         Task<BrokerOptionModel?> GetByIdAsync(int brokerId, RecordStatusEnum recordStatus);
-        Task CreateAsync(int userId, BrokerModel request);
+        Task CreateAsync(BrokerModel request);
+        Task CreateUserAsync(int userId, int brokerId, BrokerUserModel request);
     }
 }

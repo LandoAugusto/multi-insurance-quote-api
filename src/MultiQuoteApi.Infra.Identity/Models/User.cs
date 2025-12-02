@@ -14,13 +14,13 @@ namespace MultiQuoteApi.Infra.Identity.Models
 
         public string? GetUserEmail() => IsAuthenticated() ? _accessor.HttpContext.User.GetUserEmail() : string.Empty;
 
-        public string? GetUserName() => IsAuthenticated() ? _accessor.HttpContext.User.GetUserName() : string.Empty;
-
-        public int? GetExternalId() => IsAuthenticated() ? _accessor.HttpContext.User.GetExtenalId() : null;
+        public string? GetUserName() => IsAuthenticated() ? _accessor.HttpContext.User.GetUserName() : string.Empty;        
 
         public bool IsAuthenticated() => _accessor.HttpContext.User.Identity.IsAuthenticated;
 
         public int GetProfileId() => IsAuthenticated() ? int.Parse(_accessor.HttpContext.User.GetProfileId()) : default;
+
+        public int GetBrokerId() => IsAuthenticated() ? int.Parse(_accessor.HttpContext.User.GetBrokerId()) : default;
 
         public bool IsInRole(string role) => _accessor.HttpContext.User.IsInRole(role);
 
@@ -61,18 +61,7 @@ namespace MultiQuoteApi.Infra.Identity.Models
             var claim = principal.FindFirst("userName");
             if (claim == null) return null;
             return claim.Value;
-        }
-
-        public static int? GetExtenalId(this ClaimsPrincipal principal)
-        {
-            if (principal == null)
-            {
-                throw new ArgumentException(null, nameof(principal));
-            }
-            var claim = principal.FindFirst("extID");
-            if (claim == null) return null;
-            return int.Parse(claim.Value);
-        }
+        }       
 
         public static string? GetProfileId(this ClaimsPrincipal principal)
         {
@@ -81,6 +70,16 @@ namespace MultiQuoteApi.Infra.Identity.Models
                 throw new ArgumentException(null, nameof(principal));
             }
             var claim = principal.FindFirst("profileId");
+            if (claim == null) return null;
+            return claim.Value;
+        }
+        public static string? GetBrokerId(this ClaimsPrincipal principal)
+        {
+            if (principal == null)
+            {
+                throw new ArgumentException(null, nameof(principal));
+            }
+            var claim = principal.FindFirst("brokerId");
             if (claim == null) return null;
             return claim.Value;
         }

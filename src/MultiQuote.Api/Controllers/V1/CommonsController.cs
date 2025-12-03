@@ -42,6 +42,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// 
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [Route("zipCode/{zipCode}")]
         [ProducesResponseType(typeof(BaseDataResponseModel<ZipCodeModel>), StatusCodes.Status200OK)]
@@ -60,6 +61,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// 
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [Route("state")]
         [ProducesResponseType(typeof(BaseDataResponseModel<StateModel>), StatusCodes.Status200OK)]
@@ -143,7 +145,7 @@ namespace MultiQuote.Api.Controllers.V1
 
         }
 
-      
+
         /// <summary>
         /// 
         /// </summary>
@@ -183,6 +185,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// 
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [Route("person-types")]
         [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<PersonTypeModel>>), StatusCodes.Status200OK)]
@@ -212,7 +215,7 @@ namespace MultiQuote.Api.Controllers.V1
 
             return base.ReturnSuccess(response);
         }
-       
+
         /// <summary>
         /// 
         /// </summary>

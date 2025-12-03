@@ -39,17 +39,17 @@ namespace MultiQuoteApi.Application.Services
                 ProfileId = (int)ProfileEnum.Gestor,
                 RoleId = (int)ProfileEnum.Gestor,
                 IsDefault = true,
+                InclusionUserId = systemUserId,
                 Credencial = request.Credencial
             });
         }
-
 
         public async Task CreateUserAsync(int userId, int brokerId, BrokerUserModel request)
         {
             await _userAppService.ValidateUserAsync(request.Credencial.Login);
 
             var personId = await CreatePersonAsync(userId, request);
-                
+
             await _userAppService.CreateUserAsync(new UserPersonModel
             {
                 BrokerId = brokerId,
@@ -57,16 +57,16 @@ namespace MultiQuoteApi.Application.Services
                 ProfileId = request.ProfileId,
                 RoleId = request.ProfileId,
                 IsDefault = false,
+                InclusionUserId = userId,
                 Credencial = request.Credencial
             });
         }
-
 
         private async Task<(int BrokerId, int PersonId)> CreateBrokerAsync(int userId, BrokerModel model)
         {
             var person = BuildPerson(userId, model);
 
-            person.Broker = new []
+            person.Broker = new[]
             {
                 new Broker
                 {

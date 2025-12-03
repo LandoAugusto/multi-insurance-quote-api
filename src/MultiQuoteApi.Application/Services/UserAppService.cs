@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Server.IISIntegration;
 using MultiQuoteApi.Application.Interfaces;
 using MultiQuoteApi.Core.Entities;
 using MultiQuoteApi.Core.Entities.Enumerators;
@@ -61,7 +60,7 @@ namespace MultiQuoteApi.Application.Services
                 _ = await userManager.AddToRoleAsync(applicationUser, roleNames.Name);
 
                 await _signInManager.SignInAsync(applicationUser, false);
-                await InsertAsync(applicationUser.Id, new UserModel
+                await InsertAsync(user.InclusionUserId, new UserModel
                 {
                     UserId = applicationUser.Id,
                     BrokerId = user.BrokerId,

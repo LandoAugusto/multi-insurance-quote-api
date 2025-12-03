@@ -330,5 +330,53 @@ namespace MultiQuote.Api.Controllers.V1
             return base.ReturnSuccess(request.Name);
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="BusinessException"></exception>
+        [HttpPost("save-user")]
+        public async Task<ActionResult> SaveAsync(SaveUserRequest model)
+        {
+            try
+            {
+                var existentUser = await userManager.FindByNameAsync(model.Login);
+                if (existentUser != null)
+                {
+                    throw new BusinessException($"Já existe outro usuário cadastrado com o login '{model.Login}'.");
+                }
+
+                var roleNames = await _roleManager.FindByIdAsync(model.RoleId.ToString())
+                    ?? throw new BusinessException($"Role '{model.RoleId}' não foi lozalizada.");
+
+                var user = new ApplicationUser
+                {
+                    UserName = model.Login,
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                };
+
+                var createdUser = await userManager.CreateAsync(user, model.Password);
+                if (createdUser.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    var roleResult = await userManager.AddToRoleAsync(user, roleNames.Name);
+                }
+
+                await _userAppService.InsertAsync(user.Id, new UserModel
+                {
+                    UserId = user.Id,
+                    ProfileId = model.ProfileId.Equals((int)ProfileEnum.Admin) ? model.ProfileId : (int)ProfileEnum.Broker,
+                });
+
+                return base.ReturnSuccess(user.Id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

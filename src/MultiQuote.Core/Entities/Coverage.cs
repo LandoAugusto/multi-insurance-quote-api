@@ -9,10 +9,7 @@ namespace MultiQuoteApi.Core.Entities
         public required string Description { get; set; }
         public int BranchId { get; set; }
         public int CoverageGroupId { get; set; }
-        public bool CoverageBasic { get; set; }
-        public int? CoverageRestricted { get; set; }
-        public bool IsGoodsRelationship { get; set; }
-        public string? LegacyCode { get; set; }
+        public bool CoverageBasic { get; set; }   
         public int Status { get; set; }
         public int InclusionUserId { get; set; }
         public DateTime InclusionDate { get; set; }
@@ -20,6 +17,7 @@ namespace MultiQuoteApi.Core.Entities
         public DateTime? LastChangeDate { get; set; }
         public virtual Branch Branch { get; set; } = null!;
         public virtual CoverageGroup CoverageGroup { get; set; } = null!;
-       
+        public virtual ICollection<ProductCoverage> ProductCoverage { get; set; } = new HashSet<ProductCoverage>();
+
     }
 }

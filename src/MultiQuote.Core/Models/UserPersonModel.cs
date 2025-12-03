@@ -7,6 +7,7 @@
         public int ProfileId { get; set; }
         public int RoleId { get; set; }
         public bool IsDefault { get; set; }
+        public int InclusionUserId { get; set; }
         public required CredencialModel Credencial { get; set; }
     }
 }

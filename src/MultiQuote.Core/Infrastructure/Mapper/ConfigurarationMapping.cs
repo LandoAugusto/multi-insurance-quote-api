@@ -29,6 +29,8 @@ namespace MultiQuoteApi.Core.Infrastructure.Mapper
             CreateMap<InsuranceTypeModel, InsuranceType>().ReverseMap();            
             CreateMap<CalculationTypeModel, CalculationType>().ReverseMap();
             CreateMap<InsurerModel, Insurer>().ReverseMap();            
+            CreateMap<PersonModel, Person>().ReverseMap();
+            CreateMap<AddressModel, Address>().ReverseMap();
             CreateMap<PersonTypeModel, PersonType>().ReverseMap();
             CreateMap<QuotationStatusModel, QuotationStatus>().ReverseMap();          
             CreateMap<GenderOptionModel, Gender>().ReverseMap();
@@ -39,9 +41,14 @@ namespace MultiQuoteApi.Core.Infrastructure.Mapper
             CreateMap<VehicleFuelTypeModel, VehicleFuelType>().ReverseMap();    
             CreateMap<VehicleModelModel, VehicleModel>().ReverseMap();
             CreateMap<VehicleVersionModel, VehicleVersion>().ReverseMap();  
-            CreateMap<VehicleYearModel, VehicleYear>().ReverseMap();            
+            CreateMap<VehicleYearModel, VehicleYear>().ReverseMap();
+            CreateMap<TrackerOptionModel, Tracker>().ReverseMap();
+            CreateMap<AntiTheftDeviceOptionModel, AntiTheftDevice>().ReverseMap();
             CreateMap<QuestionnaireModel, Question>().ReverseMap();
             CreateMap<ResponseModel, Response>().ReverseMap();
+            CreateMap<InsurancePlanOptionModel, InsurancePlan>()
+                .ForPath(dest => dest.InsurancePlanType.Name, m => m.MapFrom(a => a.Name))
+                .ReverseMap();
         }
     }
 }

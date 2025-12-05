@@ -10,5 +10,7 @@ namespace MultiQuoteApi.Application.Interfaces
         Task<IEnumerable<VehicleVersionModel>?> GetVersionAsync(int vehicleModelId, string? name, RecordStatusEnum recordStatus);
         Task<IEnumerable<VehicleYearModel>?> GetYearAsync(RecordStatusEnum recordStatus);
         Task<IEnumerable<VehicleFuelTypeModel>?> GetFuelTypeAsync(RecordStatusEnum recordStatus);
+        Task<IEnumerable<AntiTheftDeviceOptionModel>?> GetAntiTheftDeviceAsync(RecordStatusEnum recordStatus);
+        Task<IEnumerable<TrackerOptionModel>?> GetTrackerAsync(RecordStatusEnum recordStatus);
     }
 }

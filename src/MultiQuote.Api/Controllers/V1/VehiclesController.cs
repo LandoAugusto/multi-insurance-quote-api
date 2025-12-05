@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MultiQuote.Api.Controllers.V1.Base;
 using MultiQuoteApi.Application.Interfaces;
 using MultiQuoteApi.Core.Entities.Enumerators;
@@ -97,6 +98,39 @@ namespace MultiQuote.Api.Controllers.V1
         public async Task<IActionResult> GetFuelTypeAsync()
         {
             var response = await _vehicleAppService.GetFuelTypeAsync(RecordStatusEnum.Active);
+            if (response == null)
+                return ReturnNotFound();
+
+            return base.ReturnSuccess(response);
+        }
+        // <summary>
+        /// 
+        /// </summary>                
+        /// <returns></returns> 
+        ///         
+        [HttpGet]
+        [Route("trackers")]
+        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<TrackerOptionModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetTrackerAsync()
+        {
+            var response = await _vehicleAppService.GetTrackerAsync(RecordStatusEnum.Active);
+            if (response == null)
+                return ReturnNotFound();
+
+            return base.ReturnSuccess(response);
+        }
+        // <summary>
+        /// 
+        /// </summary>                
+        /// <returns></returns>       
+        [HttpGet]
+        [Route("anti-theft-devices")]
+        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<AntiTheftDeviceOptionModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAntiTheftDeviceAsync()
+        {
+            var response = await _vehicleAppService.GetAntiTheftDeviceAsync(RecordStatusEnum.Active);
             if (response == null)
                 return ReturnNotFound();
 

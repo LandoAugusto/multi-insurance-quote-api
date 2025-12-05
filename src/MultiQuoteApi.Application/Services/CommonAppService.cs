@@ -68,8 +68,7 @@ namespace MultiQuoteApi.Application.Services
                 City = response.City,
                 Complement = response.Complement,
                 District = response.District,
-                State = response.State,
-                StateUf = response.StateUf,
+                State = response.State,                
                 StreetName = response.StreetName,
                 StateId = state.First().StateId
             };

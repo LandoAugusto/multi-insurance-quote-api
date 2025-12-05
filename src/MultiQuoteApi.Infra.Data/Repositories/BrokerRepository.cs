@@ -20,6 +20,6 @@ namespace MultiQuoteApi.Infra.Data.Repositories
                             orderBy: item => item.OrderBy(y => y.BrokerId));
 
             return await query.FirstOrDefaultAsync();
-        }
+        }   
     }
 }

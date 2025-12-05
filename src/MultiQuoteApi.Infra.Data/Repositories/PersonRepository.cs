@@ -22,5 +22,19 @@ namespace MultiQuoteApi.Infra.Data.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<Person?> GetByDocumentAsync(int personTypeId, string document)
+        {
+            var query =
+                    await Task.FromResult(
+                        GenerateQuery(
+                            filter: (filtr => filtr.Document == document
+                            && filtr.PersonTypeId.Equals(personTypeId)),
+                            includeProperties: source =>
+                                    source
+                                    .Include(item => item.Address)));
+
+            return query.FirstOrDefault();
+        }
     }
 }

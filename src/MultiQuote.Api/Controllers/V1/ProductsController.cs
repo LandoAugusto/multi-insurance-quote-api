@@ -61,16 +61,35 @@ namespace MultiQuote.Api.Controllers.V1
         /// 
         /// </summary>
         /// <param name="productId"></param>        
-        /// <returns></returns>
-        [AllowAnonymous]
+        /// <returns></returns>        
         [HttpGet]
-        [Route("questionnaire")]
+        [Route("questionnaire/{productId}")]
         [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<QuestionnaireModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetQuestionnaireAsync(int productId)
         {
             var response = await _productAppService.GetQuestionnaireAsync(productId, RecordStatusEnum.Active);
+            if (response == null)
+                return ReturnNotFound();
+
+            return base.ReturnSuccess(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>        
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("plans/{productId}")]
+        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<QuestionnaireModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetInsurancePlanAsync(int productId)
+        {
+            var response = await _productAppService.GetInsurancePlanAsync(productId, RecordStatusEnum.Active);
             if (response == null)
                 return ReturnNotFound();
 

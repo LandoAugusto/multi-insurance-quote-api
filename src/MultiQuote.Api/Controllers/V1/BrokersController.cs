@@ -49,7 +49,11 @@ namespace MultiQuote.Api.Controllers.V1
             return Created();
         }
 
-        [AllowAnonymous]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="brokerId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{brokerId}")]
         [ProducesResponseType(typeof(BaseDataResponseModel<BrokerOptionModel>), StatusCodes.Status200OK)]
@@ -58,6 +62,25 @@ namespace MultiQuote.Api.Controllers.V1
         public async Task<IActionResult> GetByIdAsync(int brokerId)
         {
             var response = await _brokerAppService.GetByIdAsync(brokerId, RecordStatusEnum.Active);
+            if (response == null)
+                return ReturnNotFound();
+
+            return base.ReturnSuccess(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("details")]
+        [ProducesResponseType(typeof(BaseDataResponseModel<BrokerOptionModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPersonByIdAsync()
+        {
+            var response = await _brokerAppService.GetPersonByIdAsync(this.BrokerId, RecordStatusEnum.Active);
             if (response == null)
                 return ReturnNotFound();
 

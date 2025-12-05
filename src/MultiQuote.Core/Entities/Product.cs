@@ -19,5 +19,6 @@ namespace MultiQuoteApi.Core.Entities
         public virtual ICollection<ProductQuestionnaire> ProductQuestion { get; set; } = new HashSet<ProductQuestionnaire>();
         public virtual ICollection<ProductCoverage> ProductCoverage { get; set; } = new HashSet<ProductCoverage>();
         public virtual ICollection<ProductAccessory> ProductAccessory { get; set; } = new HashSet<ProductAccessory>();
+        public virtual ICollection<ProductInsurancePlan> ProductInsurancePlan { get; set; } = new HashSet<ProductInsurancePlan>();
     }
 }

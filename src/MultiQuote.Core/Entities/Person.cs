@@ -8,7 +8,7 @@ namespace MultiQuoteApi.Core.Entities
         public required int PersonTypeId { get; set; }
         public required string Document { get; set; }
         public required string Name { get; set; }
-        public  bool? IsPubliBody { get; set; }
+        public  bool? IsPublicBody { get; set; }
         public  int? GenderId { get; set; }
         public  DateTime? BornDate { get; set; }
         public int? MaritalStatusId { get; set; }

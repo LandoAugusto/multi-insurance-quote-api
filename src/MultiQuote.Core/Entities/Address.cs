@@ -10,6 +10,7 @@ namespace MultiQuoteApi.Core.Entities
         public bool IsMainAddress { get; set; }
         public string ZipCode { get; set; }
         public string StreetName { get; set; }
+        public int StateId { get; set; }        
         public string? Number { get; set; }
         public string? Complement { get; set; }
         public string? District { get; set; }
@@ -21,5 +22,6 @@ namespace MultiQuoteApi.Core.Entities
         public DateTime? LastChangeDate { get; set; }
         public virtual Person Person { get; set; } = null!;
         public virtual AddressType AddressType { get; set; } = null!;
+        public virtual State State { get; set; } = null!;
     }
 }

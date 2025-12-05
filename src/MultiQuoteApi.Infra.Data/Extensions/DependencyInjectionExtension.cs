@@ -24,8 +24,7 @@ namespace MultiQuoteApi.Infra.Data.Extensions
             services.AddScoped<IMenuProductRepository, MenuProductRepository>();
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<IBranchTypeRepository, BranchTypeRepository>();
-            services.AddScoped<IInsuranceBranchRepository, InsuranceBranchRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IInsuranceBranchRepository, InsuranceBranchRepository>();           
             services.AddScoped<ICoverageRepository, CoverageRepository>();
             services.AddScoped<IRecordStatusRepository, RecordStatusRepository>();
             services.AddScoped<IStateRepository, StateRepository>();            
@@ -41,15 +40,19 @@ namespace MultiQuoteApi.Infra.Data.Extensions
             services.AddScoped<IGenderRepository, GenderRepository>();            
             services.AddScoped<IMaritalStatusRepository, MaritalStatusRepository>();
             services.AddScoped<IProfessionRepository, ProfessionRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductAcceptanceRepository, ProductAcceptanceRepository>();
             services.AddScoped<IProductCalculationTypeRepository, ProductCalculationTypeRepository>();
             services.AddScoped<IProductQuestionnaireRepository, ProductQuestionnaireRepository>();
+            services.AddScoped<IProductInsurancePlanRepository, ProductInsurancePlanRepository>();
             services.AddScoped<IQuestionResponseRepository, QuestionResponseRepository>();            
             services.AddScoped<IVehicleBrandRepository, VehicleBrandRepository>();
             services.AddScoped<IVehicleFuelTypeRepository, VehicleFuelTypeRepository>();
             services.AddScoped<IVehicleModelRepository, VehicleModelRepository>();
             services.AddScoped<IVehicleVersionRepository, VehicleVersionRepository>();
             services.AddScoped<IVehicleYearRepository, VehicleYearRepository>();
+            services.AddScoped<ITrackerRepository, TrackerRepository>();
+            services.AddScoped<IAntiTheftDeviceRepositoy, AntiTheftDeviceRepositoy>();
             return services;
         }
     }

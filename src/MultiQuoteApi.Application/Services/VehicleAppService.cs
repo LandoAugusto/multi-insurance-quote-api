@@ -14,13 +14,17 @@ namespace MultiQuoteApi.Application.Services
             IVehicleModelRepository vehicleModelRepository,
             IVehicleBrandRepository vehicleBrandRepository,
             IVehicleYearRepository vehicleYearRepository,
-            IVehicleFuelTypeRepository vehicleFuelTypeRepository) : IVehicleAppService
+            IVehicleFuelTypeRepository vehicleFuelTypeRepository,
+            IAntiTheftDeviceRepositoy antiTheftDeviceRepositoy,
+            ITrackerRepository trackerRepository ) : IVehicleAppService
     {
         private readonly IVehicleBrandRepository _vehicleBrandRepository = vehicleBrandRepository;
         private readonly IVehicleModelRepository _vehicleModelRepository = vehicleModelRepository;
         private readonly IVehicleVersionRepository _vehicleVersionRepository = vehicleVersionRepository;
         private readonly IVehicleYearRepository _vehicleYearRepository = vehicleYearRepository;
         private readonly IVehicleFuelTypeRepository _vehicleFuelTypeRepository = vehicleFuelTypeRepository;
+        private readonly IAntiTheftDeviceRepositoy _antiTheftDeviceRepositoy = antiTheftDeviceRepositoy;
+        private readonly ITrackerRepository _trackerRepository = trackerRepository; 
         private readonly IMapper _mapper = mapper;
 
         public async Task<IEnumerable<VehicleBrandModel>?> GetBrandAsync(string name, RecordStatusEnum recordStatus)
@@ -60,6 +64,22 @@ namespace MultiQuoteApi.Application.Services
             if (!entity.IsAny<VehicleFuelType>()) return null;
 
             return _mapper.Map<IEnumerable<VehicleFuelTypeModel>>(entity);
+        }
+
+
+        public async Task<IEnumerable<TrackerOptionModel>?> GetTrackerAsync(RecordStatusEnum recordStatus)
+        {
+            var entity = await _trackerRepository.ListAsync(recordStatus);
+            if (!entity.IsAny<Tracker>()) return null;
+
+            return _mapper.Map<IEnumerable<TrackerOptionModel>>(entity);
+        }
+        public async Task<IEnumerable<AntiTheftDeviceOptionModel>?> GetAntiTheftDeviceAsync(RecordStatusEnum recordStatus)
+        {
+            var entity = await _antiTheftDeviceRepositoy.ListAsync(recordStatus);
+            if (!entity.IsAny<AntiTheftDevice>()) return null;
+
+            return _mapper.Map<IEnumerable<AntiTheftDeviceOptionModel>>(entity);
         }
     }
 }

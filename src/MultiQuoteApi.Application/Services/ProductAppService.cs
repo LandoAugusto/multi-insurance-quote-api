@@ -5,7 +5,6 @@ using MultiQuoteApi.Core.Entities.Enumerators;
 using MultiQuoteApi.Core.Extensions;
 using MultiQuoteApi.Core.Models;
 using MultiQuoteApi.Infra.Data.Interfaces;
-using SharpCompress.Common;
 
 namespace MultiQuoteApi.Application.Services
 {
@@ -14,7 +13,8 @@ namespace MultiQuoteApi.Application.Services
             IProductAcceptanceRepository productAcceptanceRepository, 
             IProductCalculationTypeRepository productCalculationTypeRepository,
             IProductQuestionnaireRepository productQuestionnaireRepository,
-            IQuestionResponseRepository questionResponseRepository) 
+            IQuestionResponseRepository questionResponseRepository,
+            IProductInsurancePlanRepository productInsurancePlanRepository) 
         : IProductAppService
     {
 
@@ -23,7 +23,8 @@ namespace MultiQuoteApi.Application.Services
         private readonly IProductCalculationTypeRepository _productCalculationTypeRepository = productCalculationTypeRepository;
         private readonly IProductQuestionnaireRepository _productQuestionnaireRepository = productQuestionnaireRepository;
         private readonly IQuestionResponseRepository _questionResponseRepository = questionResponseRepository;
-        
+        private readonly IProductInsurancePlanRepository _productInsurancePlanRepository = productInsurancePlanRepository;  
+
         public async Task<ProductAcceptanceModel?> GetAcceptanceAsync(int productVersionId, int profileId, RecordStatusEnum recordStatus)
         {
             var productVersionAcceptance = await _productAcceptanceRepository.GetAsync(productVersionId, profileId, recordStatus);
@@ -45,6 +46,17 @@ namespace MultiQuoteApi.Application.Services
             return [.. entity.ToList().Select(item =>
             {
                 return _mapper.Map<CalculationTypeModel>(item.CalculationType);
+            })];
+        }
+
+        public async Task<IEnumerable<InsurancePlanOptionModel>?> GetInsurancePlanAsync(int productVersionId, RecordStatusEnum recordStatus)
+        {
+            var entity = await _productInsurancePlanRepository.GetAsync(productVersionId, recordStatus);
+            if (!entity.IsAny<ProductInsurancePlan>()) return null;
+
+            return [.. entity.ToList().Select(item =>
+            {
+                return _mapper.Map<InsurancePlanOptionModel>(item.InsurancePlan);
             })];
         }
 

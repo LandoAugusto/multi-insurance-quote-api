@@ -18,6 +18,13 @@ namespace MultiQuoteApi.Application.Services
         private readonly IPersonRepository _personRepository = personRepository;
         private readonly IUserAppService _userAppService = userAppService;
 
+
+        public async Task<BrokerUserModel?> GetPersonByIdAsync(int brokerId, RecordStatusEnum recordStatus)
+        {
+            var entity = await _brokerRepository.GetByIdAsync(brokerId, recordStatus);
+            return entity is null ? null : _mapper.Map<BrokerUserModel>(entity);
+        }
+
         public async Task<BrokerOptionModel?> GetByIdAsync(int brokerId, RecordStatusEnum recordStatus)
         {
             var entity = await _brokerRepository.GetByIdAsync(brokerId, recordStatus);
@@ -66,16 +73,21 @@ namespace MultiQuoteApi.Application.Services
         {
             var person = BuildPerson(userId, model);
 
-            person.Broker = new[]
-            {
+            person.Broker =
+            [
                 new Broker
                 {
                     SusepCode = model.Susep,
                     InclusionUserId = userId,
                     Status = (int)RecordStatusEnum.Active
                 }
-            };
+            ];
 
+            var isExistingBroker = await _personRepository.GetByDocumentAsync(model.PersonTypeId, model.Document);   
+            if (isExistingBroker is not null)
+            {
+                throw new InvalidOperationException("Corretora já está cadastrada no sistema.");
+            }
             var created = await _personRepository.AddAsync(person);
             return (created.Broker.First().BrokerId, created.PersonId);
         }
@@ -83,6 +95,12 @@ namespace MultiQuoteApi.Application.Services
         private async Task<int> CreatePersonAsync(int userId, BrokerUserModel model)
         {
             var person = BuildPerson(userId, model);
+
+            var isExistingBroker = await _personRepository.GetByDocumentAsync(model.PersonTypeId, model.Document);
+            if (isExistingBroker is not null)
+            {
+                return isExistingBroker.PersonId;
+            }
 
             var created = await _personRepository.AddAsync(person);
             return created.PersonId;
@@ -102,30 +120,32 @@ namespace MultiQuoteApi.Application.Services
             };
         }
 
-        private static Address BuildAddress(int userId, AddressModel a)
+        private static Address BuildAddress(int userId, AddressModel address)
         {
             return new Address
             {
-                StreetName = a.StreetName,
-                Number = a.Number,
-                City = a.City,
-                ZipCode = a.ZipCode,
-                District = a.District,
-                Complement = a.Complement,
+                StreetName = address.StreetName,
+                Number = address.Number,
+                City = address.City,                
+                ZipCode = address.ZipCode,
+                District = address.District,
+                StateId = address.StateId,  
+                Complement = address.Complement,
                 Status = (int)RecordStatusEnum.Active,
-                AddressTypeId = a.AddressTypeId,
+                AddressTypeId = address.AddressTypeId,
                 IsMainAddress = true,
                 InclusionUserId = userId
+
             };
         }
 
-        private static Contact BuildContact(int userId, ContactModel c)
+        private static Contact BuildContact(int userId, ContactModel contact)
         {
             return new Contact
             {
-                ContactTypeId = c.ContactTypeId,
-                ContactCategoryId = c.ContactCategoryId,
-                Value = c.Value,
+                ContactTypeId = contact.ContactTypeId,
+                ContactCategoryId = contact.ContactCategoryId,
+                Value = contact.Value,
                 Status = (int)RecordStatusEnum.Active,
                 InclusionUserId = userId
             };

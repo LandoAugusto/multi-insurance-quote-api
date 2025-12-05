@@ -8,7 +8,6 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }
-
         public virtual DbSet<MenuComponent> MenuComponent { get; set; }
         public virtual DbSet<MenuProduct> MenuProduct { get; set; }
         public virtual DbSet<MenuScreen> MenuScreen { get; set; }
@@ -43,6 +42,9 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         public virtual DbSet<ProductCoverage> ProductCoverage { get; set; }
         public virtual DbSet<ProductAccessory> ProductAccessory { get; set; }
         public virtual DbSet<ProductCoverageLimit> ProductCoverageLimit { get; set; }
+        public virtual DbSet<ProductInsurancePlan> ProductInsurancePlan { get; set; }
+        public virtual DbSet<InsurancePlanType> InsurancePlanType { get; set; }
+        public virtual DbSet<InsurancePlan> InsurancePlan { get; set; }
         public virtual DbSet<Accessory> Accessory { get; set; }
         public virtual DbSet<ComponentType> ComponentType { get; set; }
         public virtual DbSet<Question> Question { get; set; }
@@ -52,6 +54,8 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         public virtual DbSet<VehicleFuelType> VehicleFuelType { get; set; }
         public virtual DbSet<VehicleModel> VehicleModel { get; set; }
         public virtual DbSet<VehicleVersion> VehicleVersion { get; set; }
+        public virtual DbSet<Tracker> Tracker { get; set; }
+        public virtual DbSet<AntiTheftDevice> AntiTheftDevice { get; set; }
         public virtual DbSet<VehicleYear> VehicleYear { get; set; }
        
     }

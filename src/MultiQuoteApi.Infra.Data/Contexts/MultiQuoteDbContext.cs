@@ -38,11 +38,12 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductAcceptance> ProductAcceptance { get; set; }
         public virtual DbSet<ProductCalculationType> ProductCalculationType { get; set; }
-        public virtual DbSet<ProductQuestionnaire> ProductQuestionnaire { get; set; }
-        public virtual DbSet<ProductCoverage> ProductCoverage { get; set; }
+        public virtual DbSet<ProductQuestionnaire> ProductQuestionnaire { get; set; }  
         public virtual DbSet<ProductAccessory> ProductAccessory { get; set; }
-        public virtual DbSet<ProductCoverageLimit> ProductCoverageLimit { get; set; }
+        public virtual DbSet<ProductInsurancePlanCoverageLimit> ProductInsurancePlanCoverageLimit { get; set; }
+        public virtual DbSet<ProductCoverage> ProductCoverage { get; set; }
         public virtual DbSet<ProductInsurancePlan> ProductInsurancePlan { get; set; }
+        public virtual DbSet<ProductInsurancePlanCoverage> ProductInsurancePlanCoverage { get; set; }
         public virtual DbSet<InsurancePlanType> InsurancePlanType { get; set; }
         public virtual DbSet<InsurancePlan> InsurancePlan { get; set; }
         public virtual DbSet<Accessory> Accessory { get; set; }

@@ -14,6 +14,7 @@ namespace MultiQuoteApi.Core.Entities
         public DateTime? LastChangeDate { get; set; }
         public virtual Coverage Coverage { get; set; } = null!;
         public virtual Product Product { get; set; } = null!;
-        public virtual ICollection<ProductCoverageLimit> ProductCoverageLimit { get; set; } = new HashSet<ProductCoverageLimit>();
+        
+        public virtual ICollection<ProductInsurancePlanCoverage> ProductInsurancePlanCoverage { get; set; } = new HashSet<ProductInsurancePlanCoverage>();
     }
 }

@@ -5,16 +5,21 @@ using MultiQuoteApi.Core.Entities.Enumerators;
 using MultiQuoteApi.Core.Extensions;
 using MultiQuoteApi.Core.Models;
 using MultiQuoteApi.Infra.Data.Interfaces;
+using Nest;
+using System.Drawing;
+using static MongoDB.Driver.WriteConcern;
 
 namespace MultiQuoteApi.Application.Services
 {
     internal class ProductAppService(
-            IMapper mapper, 
-            IProductAcceptanceRepository productAcceptanceRepository, 
+            IMapper mapper,
+            IProductAcceptanceRepository productAcceptanceRepository,
             IProductCalculationTypeRepository productCalculationTypeRepository,
             IProductQuestionnaireRepository productQuestionnaireRepository,
             IQuestionResponseRepository questionResponseRepository,
-            IProductInsurancePlanRepository productInsurancePlanRepository) 
+            IProductInsurancePlanRepository productInsurancePlanRepository,
+            IProductInsurancePlanCoverageRepository productInsurancePlanCoverageRepository,
+            IProductInsurancePlanCoverageLimitRepository productInsurancePlanCoverageLimitRepository)
         : IProductAppService
     {
 
@@ -23,7 +28,9 @@ namespace MultiQuoteApi.Application.Services
         private readonly IProductCalculationTypeRepository _productCalculationTypeRepository = productCalculationTypeRepository;
         private readonly IProductQuestionnaireRepository _productQuestionnaireRepository = productQuestionnaireRepository;
         private readonly IQuestionResponseRepository _questionResponseRepository = questionResponseRepository;
-        private readonly IProductInsurancePlanRepository _productInsurancePlanRepository = productInsurancePlanRepository;  
+        private readonly IProductInsurancePlanRepository _productInsurancePlanRepository = productInsurancePlanRepository;
+        private readonly IProductInsurancePlanCoverageRepository _productInsurancePlanCoverageRepository = productInsurancePlanCoverageRepository;
+        private readonly IProductInsurancePlanCoverageLimitRepository _productInsurancePlanCoverageLimitRepository = productInsurancePlanCoverageLimitRepository;
 
         public async Task<ProductAcceptanceModel?> GetAcceptanceAsync(int productVersionId, int profileId, RecordStatusEnum recordStatus)
         {
@@ -49,9 +56,9 @@ namespace MultiQuoteApi.Application.Services
             })];
         }
 
-        public async Task<IEnumerable<InsurancePlanOptionModel>?> GetInsurancePlanAsync(int productVersionId, RecordStatusEnum recordStatus)
+        public async Task<IEnumerable<InsurancePlanOptionModel>?> GetInsurancePlanAsync(int productId, RecordStatusEnum recordStatus)
         {
-            var entity = await _productInsurancePlanRepository.GetAsync(productVersionId, recordStatus);
+            var entity = await _productInsurancePlanRepository.GetAsync(productId, recordStatus);
             if (!entity.IsAny<ProductInsurancePlan>()) return null;
 
             return [.. entity.ToList().Select(item =>
@@ -86,6 +93,53 @@ namespace MultiQuoteApi.Application.Services
             }
 
             return questionnaire;
+        }
+        public async Task<IEnumerable<InsurancePlanCoverageModel>?> GetPlanLimitAsync(int productId, int insurancePlanId, int profileId, RecordStatusEnum recordStatus)
+        {
+            var entity = await _productInsurancePlanRepository.GetPlanAsync(productId, insurancePlanId, recordStatus);
+            if (entity == null) return null;
+
+            var insurancePlanCoverage = await _productInsurancePlanCoverageRepository.ListAsync(entity.ProductInsurancePlanId, recordStatus);
+
+            if (!insurancePlanCoverage.IsAny<ProductInsurancePlanCoverage>()) return null;
+
+            var response = new List<InsurancePlanCoverageModel>();
+
+            foreach (var item in insurancePlanCoverage)
+            {
+                var newInsurancePlanCoverageModel = new InsurancePlanCoverageModel()
+                {
+                    CoverageId = item.ProductCoverage.CoverageId,
+                    Description = item.ProductCoverage.Coverage.Description,
+                    Name = item.ProductCoverage.Coverage.Name,
+                    CoveragaGroupId = item.ProductCoverage.Coverage.CoverageGroupId   
+                };
+
+                var limits = await _productInsurancePlanCoverageLimitRepository.GetAsync(item.ProductInsurancePlanCoverageId, profileId, recordStatus);
+
+                newInsurancePlanCoverageModel.Limit = new CoverageLimitModel
+                {
+                    Amount = limits.Amount,
+                    InsuredAmountMax = limits.InsuredAmountMax,
+                    InsuredAmountMin = limits.InsuredAmountMin
+                };
+
+                decimal incremento = limits.Amount;
+                int id = 1;
+
+                for (decimal valor = limits.InsuredAmountMin;
+                     valor <= limits.InsuredAmountMax;
+                     valor += incremento)
+                {
+                    newInsurancePlanCoverageModel.Limit.Values. Add(new ValorItem
+                    {
+                        Id = id++,
+                        Valor = valor
+                    });
+                }
+                response.Add(newInsurancePlanCoverageModel);
+            }
+            return response;
         }
     }
 }

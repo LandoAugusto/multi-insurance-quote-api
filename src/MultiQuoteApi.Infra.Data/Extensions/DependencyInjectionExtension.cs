@@ -45,6 +45,9 @@ namespace MultiQuoteApi.Infra.Data.Extensions
             services.AddScoped<IProductCalculationTypeRepository, ProductCalculationTypeRepository>();
             services.AddScoped<IProductQuestionnaireRepository, ProductQuestionnaireRepository>();
             services.AddScoped<IProductInsurancePlanRepository, ProductInsurancePlanRepository>();
+            services.AddScoped<IProductInsurancePlanCoverageRepository, ProductInsurancePlanCoverageRepository>();
+            services.AddScoped<IProductInsurancePlanCoverageLimitRepository, ProductInsurancePlanCoverageLimitRepository>();
+            
             services.AddScoped<IQuestionResponseRepository, QuestionResponseRepository>();            
             services.AddScoped<IVehicleBrandRepository, VehicleBrandRepository>();
             services.AddScoped<IVehicleFuelTypeRepository, VehicleFuelTypeRepository>();

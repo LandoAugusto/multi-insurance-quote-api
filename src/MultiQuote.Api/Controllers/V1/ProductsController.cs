@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MultiQuote.Api.Controllers.V1.Base;
 using MultiQuoteApi.Application.Interfaces;
+using MultiQuoteApi.Core.Entities;
 using MultiQuoteApi.Core.Entities.Enumerators;
 using MultiQuoteApi.Core.Models;
 using MultiQuoteApi.Infra.Identity.Interfaces;
@@ -80,8 +81,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// 
         /// </summary>
         /// <param name="productId"></param>        
-        /// <returns></returns>
-        [AllowAnonymous]
+        /// <returns></returns>        
         [HttpGet]
         [Route("plans/{productId}")]
         [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<QuestionnaireModel>>), StatusCodes.Status200OK)]
@@ -90,6 +90,27 @@ namespace MultiQuote.Api.Controllers.V1
         public async Task<IActionResult> GetInsurancePlanAsync(int productId)
         {
             var response = await _productAppService.GetInsurancePlanAsync(productId, RecordStatusEnum.Active);
+            if (response == null)
+                return ReturnNotFound();
+
+            return base.ReturnSuccess(response);
+        }
+
+        /// <summary>
+
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="insurancePlanId"></param>
+        /// <returns></returns>
+         [AllowAnonymous]
+        [HttpGet]
+        [Route("plan-coverage-limits/{productId}/{insurancePlanId}")]
+        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<InsurancePlanCoverageModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetInsurancePlanCoverageLimitsAsync(int productId, int insurancePlanId)
+        {
+            var response = await _productAppService.GetPlanLimitAsync(productId, insurancePlanId, 3, RecordStatusEnum.Active);
             if (response == null)
                 return ReturnNotFound();
 

@@ -10,6 +10,6 @@
         public int? LastChangeUserId { get; set; }
         public DateTime? LastChangeDate { get; set; }
         public virtual ICollection<ProductCalculationType> ProductCalculationType { get; set; } = new HashSet<ProductCalculationType>();
-        public virtual ICollection<ProductCoverageLimit> ProductCoverageLimit { get; set; } = new HashSet<ProductCoverageLimit>();
+        public virtual ICollection<ProductInsurancePlanCoverageLimit> ProductInsurancePlanCoverageLimit { get; set; } = new HashSet<ProductInsurancePlanCoverageLimit>();
     }
 }

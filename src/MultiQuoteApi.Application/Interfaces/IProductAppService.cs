@@ -9,5 +9,7 @@ namespace MultiQuoteApi.Application.Interfaces
         Task<IEnumerable<CalculationTypeModel>?> GetCalculationTypeAsync(int productId, int profileId, RecordStatusEnum recordStatus);
         Task<IEnumerable<QuestionnaireModel>?> GetQuestionnaireAsync(int producId, RecordStatusEnum recordStatus);
         Task<IEnumerable<InsurancePlanOptionModel>?> GetInsurancePlanAsync(int productVersionId, RecordStatusEnum recordStatus);
+        Task<IEnumerable<InsurancePlanCoverageModel>?> GetPlanLimitAsync(int productId, int insurancePlanId, int profileId, RecordStatusEnum recordStatus);
     }
 }
+        

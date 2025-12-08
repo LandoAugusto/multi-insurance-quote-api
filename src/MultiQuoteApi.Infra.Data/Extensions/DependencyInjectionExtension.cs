@@ -26,6 +26,9 @@ namespace MultiQuoteApi.Infra.Data.Extensions
             services.AddScoped<IBranchTypeRepository, BranchTypeRepository>();
             services.AddScoped<IInsuranceBranchRepository, InsuranceBranchRepository>();           
             services.AddScoped<ICoverageRepository, CoverageRepository>();
+            services.AddScoped<ICoverageTypeRepository, CoverageTypeRepository>();
+            services.AddScoped<IFranchiseCoverageTypeRepository, FranchiseCoverageTypeRepository>();
+            services.AddScoped<IFranchiseTypePercentageRepository, FranchiseTypePercentageRepository>();
             services.AddScoped<IRecordStatusRepository, RecordStatusRepository>();
             services.AddScoped<IStateRepository, StateRepository>();            
             services.AddScoped<IInsuredTypeRepository, InsuredTypeRepository>();
@@ -46,8 +49,7 @@ namespace MultiQuoteApi.Infra.Data.Extensions
             services.AddScoped<IProductQuestionnaireRepository, ProductQuestionnaireRepository>();
             services.AddScoped<IProductInsurancePlanRepository, ProductInsurancePlanRepository>();
             services.AddScoped<IProductInsurancePlanCoverageRepository, ProductInsurancePlanCoverageRepository>();
-            services.AddScoped<IProductInsurancePlanCoverageLimitRepository, ProductInsurancePlanCoverageLimitRepository>();
-            
+            services.AddScoped<IProductInsurancePlanCoverageLimitRepository, ProductInsurancePlanCoverageLimitRepository>();            
             services.AddScoped<IQuestionResponseRepository, QuestionResponseRepository>();            
             services.AddScoped<IVehicleBrandRepository, VehicleBrandRepository>();
             services.AddScoped<IVehicleFuelTypeRepository, VehicleFuelTypeRepository>();

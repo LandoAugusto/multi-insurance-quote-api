@@ -17,6 +17,11 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         public virtual DbSet<BranchType> BranchType { get; set; }
         public virtual DbSet<Profile> Profile { get; set; }
         public virtual DbSet<Coverage> Coverage { get; set; }
+        public virtual DbSet<CoverageGroup> CoverageGroup { get; set; }
+        public virtual DbSet<CoverageType> CoverageType { get; set; }
+        public virtual DbSet<FranchiseType> FranchiseType { get; set; }
+        public virtual DbSet<FranchiseCoverageType> FranchiseCoverageType { get; set; }
+        public virtual DbSet<FranchiseTypePercentage> FranchiseTypePercentage { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PersonType> PersonType { get; set; }        
         public virtual DbSet<Address> Address { get; set; }
@@ -43,7 +48,7 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         public virtual DbSet<ProductInsurancePlanCoverageLimit> ProductInsurancePlanCoverageLimit { get; set; }
         public virtual DbSet<ProductCoverage> ProductCoverage { get; set; }
         public virtual DbSet<ProductInsurancePlan> ProductInsurancePlan { get; set; }
-        public virtual DbSet<ProductInsurancePlanCoverage> ProductInsurancePlanCoverage { get; set; }
+        public virtual DbSet<ProductInsurancePlanCoverage> ProductInsurancePlanCoverage { get; set; }       
         public virtual DbSet<InsurancePlanType> InsurancePlanType { get; set; }
         public virtual DbSet<InsurancePlan> InsurancePlan { get; set; }
         public virtual DbSet<Accessory> Accessory { get; set; }

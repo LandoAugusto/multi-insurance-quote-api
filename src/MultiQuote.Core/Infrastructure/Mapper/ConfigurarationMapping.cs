@@ -49,6 +49,9 @@ namespace MultiQuoteApi.Core.Infrastructure.Mapper
             CreateMap<InsurancePlanOptionModel, InsurancePlan>()
                 .ForPath(dest => dest.InsurancePlanType.Name, m => m.MapFrom(a => a.Name))
                 .ReverseMap();
+            CreateMap<CoverageTypeOption, CoverageType>().ReverseMap();
+            CreateMap<FranchiseTypeOption, FranchiseType>().ReverseMap();
+            CreateMap<FranchiseTypePercentageOption, FranchiseTypePercentage>().ReverseMap();            
         }
     }
 }

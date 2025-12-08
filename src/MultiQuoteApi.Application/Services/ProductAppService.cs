@@ -94,7 +94,7 @@ namespace MultiQuoteApi.Application.Services
 
             return questionnaire;
         }
-        public async Task<IEnumerable<InsurancePlanCoverageModel>?> GetPlanLimitAsync(int productId, int insurancePlanId, int profileId, RecordStatusEnum recordStatus)
+        public async Task<IEnumerable<InsurancePlanCoverageModel>?> GetInsurancePlanCoverageLimitsAsync(int productId, int insurancePlanId, int profileId, RecordStatusEnum recordStatus)
         {
             var entity = await _productInsurancePlanRepository.GetPlanAsync(productId, insurancePlanId, recordStatus);
             if (entity == null) return null;
@@ -120,15 +120,15 @@ namespace MultiQuoteApi.Application.Services
                 newInsurancePlanCoverageModel.Limit = new CoverageLimitModel
                 {
                     Amount = limits.Amount,
-                    InsuredAmountMax = limits.InsuredAmountMax,
-                    InsuredAmountMin = limits.InsuredAmountMin
+                    InsuredAmountValueMax = limits.InsuredAmountValueMax,
+                    InsuredAmountValueMin = limits.InsuredAmountValueMin
                 };
 
                 decimal incremento = limits.Amount;
                 int id = 1;
 
-                for (decimal valor = limits.InsuredAmountMin;
-                     valor <= limits.InsuredAmountMax;
+                for (decimal valor = limits.InsuredAmountValueMin;
+                     valor <= limits.InsuredAmountValueMax;
                      valor += incremento)
                 {
                     newInsurancePlanCoverageModel.Limit.Values. Add(new ValorItem

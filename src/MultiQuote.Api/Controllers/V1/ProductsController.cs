@@ -101,8 +101,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="insurancePlanId"></param>
-        /// <returns></returns>
-         [AllowAnonymous]
+        /// <returns></returns>         
         [HttpGet]
         [Route("plan-coverage-limits/{productId}/{insurancePlanId}")]
         [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<InsurancePlanCoverageModel>>), StatusCodes.Status200OK)]
@@ -110,7 +109,7 @@ namespace MultiQuote.Api.Controllers.V1
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetInsurancePlanCoverageLimitsAsync(int productId, int insurancePlanId)
         {
-            var response = await _productAppService.GetPlanLimitAsync(productId, insurancePlanId, 3, RecordStatusEnum.Active);
+            var response = await _productAppService.GetInsurancePlanCoverageLimitsAsync(productId, insurancePlanId, this.ProfileId, RecordStatusEnum.Active);
             if (response == null)
                 return ReturnNotFound();
 

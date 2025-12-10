@@ -13,8 +13,7 @@ namespace MultiQuoteApi.Core.Entities
         public int? LastChangeUserId { get; set; }
         public DateTime? LastChangeDate { get; set; }
         public virtual Coverage Coverage { get; set; } = null!;
-        public virtual Product Product { get; set; } = null!;
-        
+        public virtual Product Product { get; set; } = null!;        
         public virtual ICollection<ProductInsurancePlanCoverage> ProductInsurancePlanCoverage { get; set; } = new HashSet<ProductInsurancePlanCoverage>();
     }
 }

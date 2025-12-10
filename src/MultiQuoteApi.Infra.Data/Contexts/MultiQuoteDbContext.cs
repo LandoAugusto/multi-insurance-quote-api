@@ -48,7 +48,10 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         public virtual DbSet<ProductInsurancePlanCoverageLimit> ProductInsurancePlanCoverageLimit { get; set; }
         public virtual DbSet<ProductCoverage> ProductCoverage { get; set; }
         public virtual DbSet<ProductInsurancePlan> ProductInsurancePlan { get; set; }
-        public virtual DbSet<ProductInsurancePlanCoverage> ProductInsurancePlanCoverage { get; set; }       
+        public virtual DbSet<ProductCoverageTypeService> ProductCoverageTypeService { get; set; }
+        public virtual DbSet<ServiceType> ServiceType { get; set; }
+        public virtual DbSet<ServiceOptionPlan> ServiceOptionPlan { get; set; }
+        public virtual DbSet<ServiceOption> ServiceOption { get; set; }
         public virtual DbSet<InsurancePlanType> InsurancePlanType { get; set; }
         public virtual DbSet<InsurancePlan> InsurancePlan { get; set; }
         public virtual DbSet<Accessory> Accessory { get; set; }

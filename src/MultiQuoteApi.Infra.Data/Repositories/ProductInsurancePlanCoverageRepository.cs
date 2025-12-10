@@ -19,7 +19,8 @@ namespace MultiQuoteApi.Infra.Data.Repositories
                     includeProperties: source =>
                                     source
                                         .Include(item => item.ProductCoverage)
-                                            .ThenInclude(item => item.Coverage),                                       
+                                            .ThenInclude(item => item.Coverage)
+                                            .ThenInclude(item => item.CoverageGroup),                                       
                     orderBy: item => item.OrderBy(y => y.ProductInsurancePlanId));
 
             return await query.ToListAsync();

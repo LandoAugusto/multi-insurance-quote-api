@@ -5,9 +5,6 @@ using MultiQuoteApi.Core.Entities.Enumerators;
 using MultiQuoteApi.Core.Extensions;
 using MultiQuoteApi.Core.Models;
 using MultiQuoteApi.Infra.Data.Interfaces;
-using Nest;
-using System.Drawing;
-using static MongoDB.Driver.WriteConcern;
 
 namespace MultiQuoteApi.Application.Services
 {
@@ -19,7 +16,8 @@ namespace MultiQuoteApi.Application.Services
             IQuestionResponseRepository questionResponseRepository,
             IProductInsurancePlanRepository productInsurancePlanRepository,
             IProductInsurancePlanCoverageRepository productInsurancePlanCoverageRepository,
-            IProductInsurancePlanCoverageLimitRepository productInsurancePlanCoverageLimitRepository)
+            IProductInsurancePlanCoverageLimitRepository productInsurancePlanCoverageLimitRepository,
+            IProductCoverageTypeServiceRepository productCoverageTypeServiceRepository)
         : IProductAppService
     {
 
@@ -31,6 +29,7 @@ namespace MultiQuoteApi.Application.Services
         private readonly IProductInsurancePlanRepository _productInsurancePlanRepository = productInsurancePlanRepository;
         private readonly IProductInsurancePlanCoverageRepository _productInsurancePlanCoverageRepository = productInsurancePlanCoverageRepository;
         private readonly IProductInsurancePlanCoverageLimitRepository _productInsurancePlanCoverageLimitRepository = productInsurancePlanCoverageLimitRepository;
+        private readonly IProductCoverageTypeServiceRepository _productCoverageTypeServiceRepository = productCoverageTypeServiceRepository;
 
         public async Task<ProductAcceptanceModel?> GetAcceptanceAsync(int productVersionId, int profileId, RecordStatusEnum recordStatus)
         {
@@ -94,51 +93,148 @@ namespace MultiQuoteApi.Application.Services
 
             return questionnaire;
         }
-        public async Task<IEnumerable<InsurancePlanCoverageModel>?> GetInsurancePlanCoverageLimitsAsync(int productId, int insurancePlanId, int profileId, RecordStatusEnum recordStatus)
+        public async Task<IEnumerable<GroupModel>?> GetInsurancePlanCoverageLimitsAsync(
+                int productId, int insurancePlanId, int profileId, RecordStatusEnum recordStatus)
         {
-            var entity = await _productInsurancePlanRepository.GetPlanAsync(productId, insurancePlanId, recordStatus);
-            if (entity == null) return null;
+            var entity = await _productInsurancePlanRepository
+                .GetPlanAsync(productId, insurancePlanId, recordStatus);
 
-            var insurancePlanCoverage = await _productInsurancePlanCoverageRepository.ListAsync(entity.ProductInsurancePlanId, recordStatus);
+            if (entity is null)
+                return null;
 
-            if (!insurancePlanCoverage.IsAny<ProductInsurancePlanCoverage>()) return null;
+            var coverages = await _productInsurancePlanCoverageRepository
+                .ListAsync(entity.ProductInsurancePlanId, recordStatus);
 
-            var response = new List<InsurancePlanCoverageModel>();
+            if (coverages is null || !coverages.Any())
+                return null;
 
-            foreach (var item in insurancePlanCoverage)
+            // Agrupa apenas uma vez
+            var groupedCoverages = coverages
+                .GroupBy(c => c.ProductCoverage.Coverage.CoverageGroupId);
+
+            var response = new List<GroupModel>();
+
+            foreach (var group in groupedCoverages)
             {
-                var newInsurancePlanCoverageModel = new InsurancePlanCoverageModel()
+                var groupName = group
+                    .Select(g => g.ProductCoverage.Coverage.CoverageGroup.Name)
+                    .FirstOrDefault() ?? string.Empty;
+
+                var groupModel = new GroupModel
                 {
-                    CoverageId = item.ProductCoverage.CoverageId,
-                    Description = item.ProductCoverage.Coverage.Description,
-                    Name = item.ProductCoverage.Coverage.Name,
-                    CoveragaGroupId = item.ProductCoverage.Coverage.CoverageGroupId   
+                    CoveragaGroupId = group.Key,
+                    Name = groupName
                 };
 
-                var limits = await _productInsurancePlanCoverageLimitRepository.GetAsync(item.ProductInsurancePlanCoverageId, profileId, recordStatus);
-
-                newInsurancePlanCoverageModel.Limit = new CoverageLimitModel
+                // Para cada cobertura do grupo
+                foreach (var coverage in group)
                 {
-                    Amount = limits.Amount,
-                    InsuredAmountValueMax = limits.InsuredAmountValueMax,
-                    InsuredAmountValueMin = limits.InsuredAmountValueMin
-                };
-
-                decimal incremento = limits.Amount;
-                int id = 1;
-
-                for (decimal valor = limits.InsuredAmountValueMin;
-                     valor <= limits.InsuredAmountValueMax;
-                     valor += incremento)
-                {
-                    newInsurancePlanCoverageModel.Limit.Values. Add(new ValorItem
+                    var coverageModel = new CoverageGroupModel
                     {
-                        Id = id++,
-                        Valor = valor
-                    });
+                        CoverageId = coverage.ProductCoverage.CoverageId,
+                        Name = coverage.ProductCoverage.Coverage.Name,
+                        Description = coverage.ProductCoverage.Coverage.Description
+                    };
+
+                    // Buscar limites da cobertura
+                    var limit = await _productInsurancePlanCoverageLimitRepository
+                        .GetAsync(coverage.ProductInsurancePlanCoverageId, profileId, recordStatus);
+
+                    if (limit is not null)
+                    {
+                        coverageModel.Limit = new CoverageLimitModel
+                        {
+                            Amount = limit.Amount,
+                            InsuredAmountValueMin = limit.InsuredAmountValueMin,
+                            InsuredAmountValueMax = limit.InsuredAmountValueMax
+                        };
+
+                        // Preencher lista de valores de forma correta e elegante
+                        decimal id = 1;
+                        for (decimal value = limit.InsuredAmountValueMin;
+                             value <= limit.InsuredAmountValueMax;
+                             value += limit.Amount)
+                        {
+                            coverageModel.Limit.Values.Add(new ValorItem
+                            {
+                                Id = (int)id++,
+                                Valor = value
+                            });
+                        }
+                    }
+
+                    groupModel.Coverages.Add(coverageModel);
                 }
-                response.Add(newInsurancePlanCoverageModel);
+
+                response.Add(groupModel);
             }
+
+            return response;
+        }
+
+
+        public async Task<IEnumerable<ServiceTypeModel>?> GetCoveraTypeServicesAsync(
+             int productId, int coverageTypeId, RecordStatusEnum recordStatus)
+        {
+            var entity = await productCoverageTypeServiceRepository.ListAsync(productId, coverageTypeId, recordStatus);
+            if (entity is null)
+                return null;
+
+            // Agrupa apenas uma vez
+            var groupedServices = entity
+                .GroupBy(c => c.ServiceOption.ServiceTypeId);
+
+            var response = new List<ServiceTypeModel>();
+            // Para cada tipo de serviço do grupo
+            foreach (var group in groupedServices)
+            {
+                var groupName = group
+                    .Select(g => g.ServiceOption.ServiceType.Name).Distinct()
+                    .FirstOrDefault() ?? string.Empty;
+
+                var groupModel = new ServiceTypeModel
+                {
+                    ServiceTypeId = group.Key,
+                    Name = groupName
+                };
+
+                // Agrupa apenas uma vez
+                var option = entity
+                     .Where(x => x.ServiceOption.ServiceTypeId == group.Key)
+                     .Select(x => new
+                     {
+                         x.ServiceOptionId,
+                         x.ServiceOption.Name
+                     })
+                     .Distinct()
+                     .ToList();
+                // Para cada cobertura do grupo
+                foreach (var service in option)
+                {
+                    var serviceOptionModel = new ServiceOptionModel
+                    {
+                        ServiceOptionId = service.ServiceOptionId,
+                        Name = service.Name,
+                    };
+
+                    var plan = entity
+                            .Where(x => x.ServiceOptionId == service.ServiceOptionId)
+                            .Select(x => x.ServiceOptionPlan).ToList();
+
+                    serviceOptionModel.ServiceOptionPlans = plan
+                      .Select(item => new ServiceOptionPlanModel
+                      {
+                          ServiceOptionPlanId = item.ServiceOptionPlanId,
+                          Name = item.Name
+                      }).ToList();
+
+                    groupModel.ServiceOptions.Add(serviceOptionModel);
+
+                }
+
+                response.Add(groupModel);
+            }
+
             return response;
         }
     }

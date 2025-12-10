@@ -101,15 +101,35 @@ namespace MultiQuote.Api.Controllers.V1
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="insurancePlanId"></param>
-        /// <returns></returns>         
+        /// <returns></returns>                  
         [HttpGet]
         [Route("plan-coverage-limits/{productId}/{insurancePlanId}")]
-        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<InsurancePlanCoverageModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<GroupModel>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetInsurancePlanCoverageLimitsAsync(int productId, int insurancePlanId)
         {
             var response = await _productAppService.GetInsurancePlanCoverageLimitsAsync(productId, insurancePlanId, this.ProfileId, RecordStatusEnum.Active);
+            if (response == null)
+                return ReturnNotFound();
+
+            return base.ReturnSuccess(response);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="coverageTypeId"></param>
+        /// <returns></returns>        
+        [HttpGet]
+        [Route("services/{productId}/{coverageTypeId}")]
+        [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<ServiceTypeModel>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetCoveraTypeServicesAsync(int productId, int coverageTypeId)
+        {
+            var response = await _productAppService.GetCoveraTypeServicesAsync(productId, coverageTypeId, RecordStatusEnum.Active);
             if (response == null)
                 return ReturnNotFound();
 

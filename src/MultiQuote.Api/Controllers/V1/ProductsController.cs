@@ -121,7 +121,8 @@ namespace MultiQuote.Api.Controllers.V1
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="coverageTypeId"></param>
-        /// <returns></returns>        
+        /// <returns></returns>            
+        [AllowAnonymous]
         [HttpGet]
         [Route("services/{productId}/{coverageTypeId}")]
         [ProducesResponseType(typeof(BaseDataResponseModel<IEnumerable<ServiceTypeModel>>), StatusCodes.Status200OK)]

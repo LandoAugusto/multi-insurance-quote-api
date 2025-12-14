@@ -17,11 +17,11 @@ namespace MultiQuoteApi.Core.Infrastructure.Mapper
                  .ForPath(dest => dest.Person.Name, m => m.MapFrom(a => a.Name))
                 .ReverseMap();            
             CreateMap<BrokerModel, Broker>().ReverseMap();
+            CreateMap<BrokerDetailsModel, Broker>().ReverseMap();
             CreateMap<BranchTypeModel, BranchType>().ReverseMap();
             CreateMap<InsuranceBranchModel, InsuranceBranch>().ReverseMap();
             CreateMap<ProductModel, Core.Entities.Product>().ReverseMap();
-            CreateMap<CoverageModel, Coverage>().ReverseMap();                        
-            CreateMap<AddressTypeModel, AddressType>().ReverseMap();
+            CreateMap<CoverageModel, Coverage>().ReverseMap();     
             CreateMap<DriverTypeOptionModel, DriverType>().ReverseMap();            
             CreateMap<InsuredTypeModel, InsuredType>().ReverseMap();
             CreateMap<RecordStatusModel, RecordStatus>().ReverseMap();            
@@ -31,6 +31,8 @@ namespace MultiQuoteApi.Core.Infrastructure.Mapper
             CreateMap<InsurerModel, Insurer>().ReverseMap();            
             CreateMap<PersonModel, Person>().ReverseMap();
             CreateMap<AddressModel, Address>().ReverseMap();
+            CreateMap<AddressTypeModel, AddressType>().ReverseMap();
+            CreateMap<ContactModel, Contact>().ReverseMap();
             CreateMap<PersonTypeModel, PersonType>().ReverseMap();
             CreateMap<QuotationStatusModel, QuotationStatus>().ReverseMap();          
             CreateMap<GenderOptionModel, Gender>().ReverseMap();
@@ -51,7 +53,14 @@ namespace MultiQuoteApi.Core.Infrastructure.Mapper
                 .ReverseMap();
             CreateMap<CoverageTypeOption, CoverageType>().ReverseMap();
             CreateMap<FranchiseTypeOption, FranchiseType>().ReverseMap();
-            CreateMap<FranchiseTypePercentageOption, FranchiseTypePercentage>().ReverseMap();            
+            CreateMap<FranchiseTypePercentageOption, FranchiseTypePercentage>().ReverseMap();
+
+            CreateMap<QuotationModel, Quotation>().ReverseMap();
+            CreateMap<QuotationItemModel, QuotationItem>().ReverseMap();
+            CreateMap<QuotationItemAutoModel, QuotationItemAuto>().ReverseMap();
+            CreateMap<QuotationItemCoverageModel, QuotationItemCoverage>().ReverseMap();
+            CreateMap<QuotationItemQuestionnaireModel, QuotationItemQuestionnaire>().ReverseMap();
+            CreateMap<QuotationDriverModel, QuotationDriver>().ReverseMap();
         }
     }
 }

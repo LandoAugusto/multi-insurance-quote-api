@@ -221,14 +221,14 @@ namespace MultiQuoteApi.Application.Services
                             .Where(x => x.ServiceOptionId == service.ServiceOptionId)
                             .Select(x => x.ServiceOptionPlan).ToList();
 
-                    serviceOptionModel.ServiceOptionPlans = plan
+                    serviceOptionModel.Options = plan
                       .Select(item => new ServiceOptionPlanModel
                       {
                           ServiceOptionPlanId = item.ServiceOptionPlanId,
                           Name = item.Name
                       }).ToList();
 
-                    groupModel.ServiceOptions.Add(serviceOptionModel);
+                    groupModel.Services.Add(serviceOptionModel);
 
                 }
 

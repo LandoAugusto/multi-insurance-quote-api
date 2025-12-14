@@ -17,6 +17,7 @@ namespace MultiQuoteApi.Application.Extensions
             services.AddScoped<IBrokerAppService, BrokerAppService>();
             services.AddScoped<IPersonAppService, PersonAppService>();
             services.AddScoped<ICoverageAppService, CoverageAppService>();
+            services.AddScoped<IBranchAppService, BranchAppService>();
         }
     }
 }

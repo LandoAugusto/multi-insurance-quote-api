@@ -81,7 +81,7 @@ namespace MultiQuoteApi.Infra.Data.Repositories.Standard
         }
 
         private async Task<int> CommitAsync()
-        {
+        {   
             return await dbContext.SaveChangesAsync();
         }
 

@@ -21,8 +21,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// 
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
+        /// <returns></returns>        
         [HttpPost]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
@@ -49,11 +48,32 @@ namespace MultiQuote.Api.Controllers.V1
             return Created();
         }
 
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="brokerId"></param>
-        /// <returns></returns>
+        /// <returns></returns>        
+        [HttpGet]
+        [Route("users/{brokerId}")]
+        [ProducesResponseType(typeof(BaseDataResponseModel<BrokerOptionModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUserAsync(int brokerId)
+        {
+            var response = await _brokerAppService.GetByIdAsync(brokerId, RecordStatusEnum.Active);
+            if (response == null)
+                return ReturnNotFound();
+
+            return base.ReturnSuccess(response);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="brokerId"></param>
+        /// <returns></returns>        
         [HttpGet]
         [Route("{brokerId}")]
         [ProducesResponseType(typeof(BaseDataResponseModel<BrokerOptionModel>), StatusCodes.Status200OK)]
@@ -75,12 +95,12 @@ namespace MultiQuote.Api.Controllers.V1
         [AllowAnonymous]
         [HttpGet]
         [Route("details")]
-        [ProducesResponseType(typeof(BaseDataResponseModel<BrokerOptionModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseDataResponseModel<BrokerDetailsModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPersonByIdAsync()
         {
-            var response = await _brokerAppService.GetPersonByIdAsync(this.BrokerId, RecordStatusEnum.Active);
+            var response = await _brokerAppService.GetDetailsByIdAsync(1, RecordStatusEnum.Active);
             if (response == null)
                 return ReturnNotFound();
 

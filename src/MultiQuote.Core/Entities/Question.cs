@@ -15,5 +15,6 @@ namespace MultiQuoteApi.Core.Entities
         public virtual ComponentType ComponentType { get; set; } = null!;
         public virtual ICollection<QuestionResponse> QuestionResponse { get; set; } = new HashSet<QuestionResponse>();
         public virtual ICollection<ProductQuestionnaire> ProductQuestion { get; set; } = new HashSet<ProductQuestionnaire>();
+        public virtual ICollection<QuotationItemQuestionnaire> Questionnaires { get; set; } = new HashSet<QuotationItemQuestionnaire>();
     }
 }

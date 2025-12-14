@@ -12,5 +12,6 @@ namespace MultiQuoteApi.Core.Entities
         public int? LastChangeUserId { get; set; }
         public DateTime? LastChangeDate { get; set; }
         public virtual ICollection<QuestionResponse> QuestionResponse { get; set; } = new HashSet<QuestionResponse>();
+        public virtual ICollection<QuotationItemQuestionnaire> Questionnaires { get; set; } = new HashSet<QuotationItemQuestionnaire>();
     }
 }

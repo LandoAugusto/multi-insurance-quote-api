@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MultiQuoteApi.Core.Entities;
+using MultiQuoteApi.Core.Models;
 
 namespace MultiQuoteApi.Infra.Data.Contexts
 {
@@ -7,6 +8,7 @@ namespace MultiQuoteApi.Infra.Data.Contexts
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
         }
         public virtual DbSet<MenuComponent> MenuComponent { get; set; }
         public virtual DbSet<MenuProduct> MenuProduct { get; set; }
@@ -66,6 +68,12 @@ namespace MultiQuoteApi.Infra.Data.Contexts
         public virtual DbSet<Tracker> Tracker { get; set; }
         public virtual DbSet<AntiTheftDevice> AntiTheftDevice { get; set; }
         public virtual DbSet<VehicleYear> VehicleYear { get; set; }
-       
+        public virtual DbSet<Quotation> Quotation { get; set; }
+        public virtual DbSet<QuotationItem> QuotationItem { get; set; }
+        public virtual DbSet<QuotationItemAuto> QuotationItemAuto { get; set; }
+        public virtual DbSet<QuotationItemCoverage> QuotationItemCoverage { get; set; }
+        public virtual DbSet<QuotationItemQuestionnaire> QuotationItemQuestionnaire { get; set; }
+        public virtual DbSet<QuotationDriver> QuotationDriver { get; set; }
+        
     }
 }

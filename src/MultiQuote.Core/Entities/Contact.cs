@@ -10,7 +10,7 @@ namespace MultiQuoteApi.Core.Entities
         public int ContactTypeId { get; set; }
         public required string Value { get; set; }
         public string? Comments { get; set; }
-        public int Status { get; set; }
+        public int Status { get; set; } 
         public int InclusionUserId { get; set; }
         public DateTime InclusionDate { get; set;  } = DateTime.Now;
         public int? LastChangeUserId { get; set; }

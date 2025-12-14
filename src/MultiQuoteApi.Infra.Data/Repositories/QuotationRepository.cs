@@ -1,0 +1,12 @@
+﻿using MultiQuoteApi.Core.Entities;
+using MultiQuoteApi.Infra.Data.Contexts;
+using MultiQuoteApi.Infra.Data.Interfaces;
+using MultiQuoteApi.Infra.Data.Repositories.Standard;
+
+namespace MultiQuoteApi.Infra.Data.Repositories
+{
+    internal class QuotationRepository(MultiQuoteDbContext context): DomainRepository<Quotation>(context)
+        , IQuotationRepository
+    {
+    }
+}

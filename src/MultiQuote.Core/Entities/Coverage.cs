@@ -1,4 +1,5 @@
 ﻿using MultiQuoteApi.Core.Entities.Interfaces;
+using MultiQuoteApi.Core.Models;
 
 namespace MultiQuoteApi.Core.Entities
 {
@@ -18,6 +19,7 @@ namespace MultiQuoteApi.Core.Entities
         public virtual Branch Branch { get; set; } = null!;
         public virtual CoverageGroup CoverageGroup { get; set; } = null!;
         public virtual ICollection<ProductCoverage> ProductCoverage { get; set; } = new HashSet<ProductCoverage>();
+        public virtual ICollection<QuotationItemCoverage> QuotationItemCoverage { get; set; } = new HashSet<QuotationItemCoverage>();
 
     }
 }

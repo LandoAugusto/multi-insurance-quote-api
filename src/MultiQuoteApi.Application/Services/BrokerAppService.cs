@@ -19,11 +19,32 @@ namespace MultiQuoteApi.Application.Services
         private readonly IUserAppService _userAppService = userAppService;
 
 
-        public async Task<BrokerUserModel?> GetPersonByIdAsync(int brokerId, RecordStatusEnum recordStatus)
+        public async Task<BrokerDetailsModel?> GetDetailsByIdAsync(int brokerId, RecordStatusEnum recordStatus)
         {
-            var entity = await _brokerRepository.GetByIdAsync(brokerId, recordStatus);
-            return entity is null ? null : _mapper.Map<BrokerUserModel>(entity);
+            var entity = await _brokerRepository.GetDetailsByIdAsync(brokerId, recordStatus);
+
+            if (entity?.Person is null)
+                return null;
+
+            return new BrokerDetailsModel
+            {
+                BrokerId = entity.BrokerId,
+                SusepCode = entity.SusepCode,
+                PersonId = entity.PersonId,
+                Name = entity.Person.Name,
+                PersonTypeId = entity.Person.PersonTypeId,
+                Document = entity.Person.Document,
+                
+                Address = entity.Person.Address is null
+                    ? Enumerable.Empty<AddressModel>()
+                    : _mapper.Map<IEnumerable<AddressModel>>(entity.Person.Address),
+
+                Contact = entity.Person.Contact is null
+                    ? Enumerable.Empty<ContactModel>()
+                    : _mapper.Map<IEnumerable<ContactModel>>(entity.Person.Contact)
+            };
         }
+
 
         public async Task<BrokerOptionModel?> GetByIdAsync(int brokerId, RecordStatusEnum recordStatus)
         {
@@ -83,7 +104,7 @@ namespace MultiQuoteApi.Application.Services
                 }
             ];
 
-            var isExistingBroker = await _personRepository.GetByDocumentAsync(model.PersonTypeId, model.Document);   
+            var isExistingBroker = await _personRepository.GetByDocumentAsync(model.PersonTypeId, model.Document);
             if (isExistingBroker is not null)
             {
                 throw new InvalidOperationException("Corretora já está cadastrada no sistema.");
@@ -126,10 +147,10 @@ namespace MultiQuoteApi.Application.Services
             {
                 StreetName = address.StreetName,
                 Number = address.Number,
-                City = address.City,                
+                City = address.City,
                 ZipCode = address.ZipCode,
                 District = address.District,
-                StateId = address.StateId,  
+                StateId = address.StateId,
                 Complement = address.Complement,
                 Status = (int)RecordStatusEnum.Active,
                 AddressTypeId = address.AddressTypeId,

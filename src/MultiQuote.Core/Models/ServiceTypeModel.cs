@@ -1,24 +1,23 @@
 ﻿namespace MultiQuoteApi.Core.Models
 {
-    public  class ServiceTypeModel
+    public class ServiceTypeModel
     {
         public required int ServiceTypeId { get; set; }
         public required string Name { get; set; }
-
-        public List<ServiceOptionModel> ServiceOptions { get; set; } = new();   
+        public List<ServiceOptionModel> Services { get; set; } = new();
     }
 
     public class ServiceOptionModel
     {
         public required int ServiceOptionId { get; set; }
         public required string Name { get; set; }
-        public List<ServiceOptionPlanModel> ServiceOptionPlans { get; set; } = new();
+        public List<ServiceOptionPlanModel> Options { get; set; } = new();
     }
 
     public class ServiceOptionPlanModel
     {
         public required int ServiceOptionPlanId { get; set; }
         public required string Name { get; set; }
-        
+
     }
 }

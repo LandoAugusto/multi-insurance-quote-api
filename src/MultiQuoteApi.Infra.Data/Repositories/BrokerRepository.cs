@@ -20,6 +20,21 @@ namespace MultiQuoteApi.Infra.Data.Repositories
                             orderBy: item => item.OrderBy(y => y.BrokerId));
 
             return await query.FirstOrDefaultAsync();
-        }   
+        }
+
+        public async Task<Broker?> GetDetailsByIdAsync(int brokerId, RecordStatusEnum recordStatus)
+        {
+            var query = GenerateQuery(
+                            filter: (filtr => filtr.BrokerId.Equals(brokerId) && filtr.Status.Equals((int)recordStatus)),
+                               includeProperties: source =>
+                                    source
+                                    .Include(item => item.Person)
+                                    .ThenInclude(item => item.Address)
+                                    .Include(item => item.Person)
+                                    .ThenInclude(item => item.Contact),
+                            orderBy: item => item.OrderBy(y => y.BrokerId));
+
+            return await query.FirstOrDefaultAsync();
+        }
     }
 }

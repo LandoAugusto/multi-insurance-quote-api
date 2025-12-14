@@ -59,6 +59,8 @@ namespace MultiQuoteApi.Infra.Data.Extensions
             services.AddScoped<IVehicleYearRepository, VehicleYearRepository>();
             services.AddScoped<ITrackerRepository, TrackerRepository>();
             services.AddScoped<IAntiTheftDeviceRepositoy, AntiTheftDeviceRepositoy>();
+            services.AddScoped<IQuotationRepository, QuotationRepository>();
+            
             return services;
         }
     }

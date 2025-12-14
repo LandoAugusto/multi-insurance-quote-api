@@ -1,13 +1,31 @@
-﻿using MultiQuoteApi.Application.Interfaces;
+﻿using AutoMapper;
+using MultiQuoteApi.Application.Interfaces;
+using MultiQuoteApi.Core.Entities;
 using MultiQuoteApi.Core.Entities.Enumerators;
 using MultiQuoteApi.Core.Infrastructure.Exceptions;
 using MultiQuoteApi.Core.Models;
+using MultiQuoteApi.Infra.Data.Interfaces;
+using Nest;
 
 namespace MultiQuoteApi.Application.Services
 {
-    internal class QuotationAppService(IProductAppService productAppService) : IQuotationAppService
+    internal class QuotationAppService(IMapper mapper, IQuotationRepository quotationRepository, IProductAppService productAppService) :
+        IQuotationAppService
     {
+        private readonly IMapper _mapper = mapper;
+        private readonly IQuotationRepository _quotationRepository = quotationRepository;
         private readonly IProductAppService _productAppService = productAppService;
+
+        public async Task CreatedAsync(int inclusionUserId, QuotationModel request)
+        {
+
+            var entity = _mapper.Map<Quotation>(request);
+
+            // Atualiza o codigo do usuário e data de inclusão            
+            entity.SetInclusionUser(inclusionUserId);                     
+
+            await _quotationRepository.AddAsync(entity);
+        }
         public async Task<CalculateValidityModel> CalculateValidityAsync(int profileId, CalculateValidityFilterModel request)
         {
             //var calculationTypeAcceptance = await _productVersionAppService.GetCalculationTypeAcceptanceAsync(request.ProductVersionId, request.ProfileId, request.CalculationTypeId)

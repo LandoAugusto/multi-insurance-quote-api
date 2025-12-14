@@ -19,7 +19,6 @@ namespace MultiQuoteApi.Application.Services
         : IUserAppService
     {
         private readonly IMapper _mapper = mapper;
-
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager = rolemanager;
         private readonly IUserRepository _userRepository = userRepository;

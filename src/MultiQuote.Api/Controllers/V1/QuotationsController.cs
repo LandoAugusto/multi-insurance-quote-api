@@ -23,8 +23,7 @@ namespace MultiQuote.Api.Controllers.V1
         /// 
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
+        /// <returns></returns>        
         [HttpPost]
         [Route("auto")]
         [ProducesResponseType(typeof(BaseDataResponseModel<>), StatusCodes.Status200OK)]

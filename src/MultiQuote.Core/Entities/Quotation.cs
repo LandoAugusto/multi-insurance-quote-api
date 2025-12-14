@@ -13,6 +13,7 @@ namespace MultiQuoteApi.Core.Entities
         public int VersionNumber { get; set; } = 1;
         public int ProductId { get; set; }
         public int BrokerId { get; set; }
+        public int PersonId { get; set; }
         public int InsuranceTypeId { get; set; }
         public int QuotationStatusId { get; set; }
         public DateTime QuotationDate { get; set; }
@@ -20,7 +21,7 @@ namespace MultiQuoteApi.Core.Entities
         public bool IsCalculated { get; set; }
         public int CalculationTypeId { get; set; }
         public DateTime StartCoverage { get; set; }
-        public DateTime EndCoverage { get; set; }
+        public DateTime EndCoverage { get; set; }        
         public int? RenovationInsurerId { get; set; }
         public string? RenovationPolicyNumber { get; set; }
         public DateTime? RenovationEndCoverage { get; set; }
@@ -30,11 +31,18 @@ namespace MultiQuoteApi.Core.Entities
         public DateTime InclusionDate { get; set; } = DateTime.Now;
         public int? LastChangeUserId { get; set; }
         public DateTime? LastChangeDate { get; set; }
+        public virtual Product Product { get; set; } = null!;
+        public virtual Broker Broker { get; set; } = null!;
+        public virtual Person Person { get; set; } = null!;
         public virtual ICollection<QuotationItem> Items { get; set; } = new HashSet<QuotationItem>();
         public void SetInclusionUser(int inclusionUser)
         {
             InclusionUserId = inclusionUser;
             InclusionDate = DateTime.Now;            
+        }
+        public void SetPerson(int personId)
+        {
+            PersonId = personId;            
         }
     }
 }

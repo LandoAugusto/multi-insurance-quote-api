@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MultiQuote.Api.Controllers.V1.Base;
 using MultiQuoteApi.Application.Interfaces;
 using MultiQuoteApi.Core.Entities.Enumerators;

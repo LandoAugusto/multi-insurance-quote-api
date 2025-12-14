@@ -4,10 +4,10 @@ namespace MultiQuoteApi.Core.Entities
 {
     public class Product : IIdentityEntity
     {
-        public int? ProductId { get; set; }        
+        public int? ProductId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int InsuranceBranchId { get; set; }        
+        public int InsuranceBranchId { get; set; }
         public int Status { get; set; }
         public int InclusionUserId { get; set; }
         public DateTime InclusionDate { get; set; }
@@ -21,6 +21,7 @@ namespace MultiQuoteApi.Core.Entities
         public virtual ICollection<ProductAccessory> ProductAccessory { get; set; } = new HashSet<ProductAccessory>();
         public virtual ICollection<ProductInsurancePlan> ProductInsurancePlan { get; set; } = new HashSet<ProductInsurancePlan>();
         public virtual ICollection<ProductCoverageTypeService> ProductCoverageTypeService { get; set; } = new HashSet<ProductCoverageTypeService>();
-        
+        public virtual ICollection<Quotation> Quotation { get; set; } = new HashSet<Quotation>();
+
     }
 }

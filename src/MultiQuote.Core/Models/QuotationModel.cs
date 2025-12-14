@@ -17,7 +17,7 @@
         public DateTime? RenovationEndCoverage { get; set; }
         public int? RenovationClaimsCount { get; set; }
         public int? RenovationBonusClass { get; set; }
-        public PersonModel Insured { get; set; }
+        public QuotationInsuredModel Insured { get; set; }
         public IEnumerable<QuotationItemModel> Items { get; set; }
     }
 }

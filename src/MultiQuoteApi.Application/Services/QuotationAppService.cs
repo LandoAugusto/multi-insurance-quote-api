@@ -9,20 +9,28 @@ using Nest;
 
 namespace MultiQuoteApi.Application.Services
 {
-    internal class QuotationAppService(IMapper mapper, IQuotationRepository quotationRepository, IProductAppService productAppService) :
+    internal class QuotationAppService(
+        IMapper mapper,
+        IPersonAppService personAppService,
+        IQuotationRepository quotationRepository,
+        IProductAppService productAppService) :
         IQuotationAppService
     {
         private readonly IMapper _mapper = mapper;
+        private readonly IPersonAppService _personAppService = personAppService;
         private readonly IQuotationRepository _quotationRepository = quotationRepository;
         private readonly IProductAppService _productAppService = productAppService;
 
         public async Task CreatedAsync(int inclusionUserId, QuotationModel request)
         {
+            var personId = await personAppService.CreatePersonAsync(inclusionUserId, request.Insured);
 
             var entity = _mapper.Map<Quotation>(request);
-
             // Atualiza o codigo do usuário e data de inclusão            
-            entity.SetInclusionUser(inclusionUserId);                     
+            entity.SetInclusionUser(inclusionUserId);
+
+            // Atualiza o codigo da pessoa segurada     
+            entity.SetPerson(personId);
 
             await _quotationRepository.AddAsync(entity);
         }

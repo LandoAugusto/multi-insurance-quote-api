@@ -13,7 +13,8 @@ namespace MultiQuoteApi.Core.Entities
         public int? LastChangeUserId { get; set; }
         public DateTime? LastChangeDate { get; set; }
         public virtual Person Person { get; set; } = null!;
-       
+        public virtual ICollection<Quotation> Quotation { get; set; } = new HashSet<Quotation>();
+
     }
 }
 

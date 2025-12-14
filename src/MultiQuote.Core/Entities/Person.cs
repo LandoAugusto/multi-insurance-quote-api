@@ -22,6 +22,6 @@ namespace MultiQuoteApi.Core.Entities
         public virtual ICollection<Contact> Contact { get; set; } = new HashSet<Contact>();
         public virtual ICollection<Broker> Broker { get; set; } = new HashSet<Broker>();
         public virtual ICollection<Users> Users { get; set; } = new HashSet<Users>();
-
+        public virtual ICollection<Quotation> Quotation { get; set; } = new HashSet<Quotation>();
     }
 }

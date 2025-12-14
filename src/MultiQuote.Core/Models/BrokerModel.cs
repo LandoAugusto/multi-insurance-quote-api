@@ -4,6 +4,7 @@
     {        
         public string? Susep { get; set; }        
         public int? LicenseId { get; set; }
-        
+        public required CredencialModel Credencial { get; set; }
+
     }
 }
